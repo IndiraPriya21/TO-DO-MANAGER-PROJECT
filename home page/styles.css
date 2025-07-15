@@ -1,0 +1,30 @@
+body {
+  background-image: url("tools.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin: 0; /* Remove default body margins */
+  height: 100vh; /* Ensure the body takes up the full viewport height */
+  display: flex; /* Enable flexbox for easy centering */
+  justify-content: center; /* Center the board horizontally */
+  align-items: center; /* Center the board vertically */
+}
+
+.board {
+  background-color: #FFB55B; /* Brown color */
+  width: 100.33%; /* Cover approximately 1/3 of the page width */
+  height: 80%; /* Adjust the height of the board as needed */
+  opacity: 0.9; /* Optional: Add some transparency to see the background slightly */
+  border-radius: 10px; /* Optional: Add rounded corners */
+  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3); /* Optional: Add a subtle shadow */
+  display: flex; /* Enable flexbox within the board for content alignment */
+  flex-direction: column; /* Arrange content within the board vertically */
+  justify-content: center; /* Center content vertically within the board */
+  align-items: center; /* Center content horizontally within the board */
+  color: white; /* Example text color on the board */
+  text-align: center; /* Center text within the board */
+}
+
+.board-content {
+  padding: 20px; /* Add some padding inside the board */
+}
+ 

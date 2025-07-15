@@ -1,0 +1,124 @@
+/* styles.css */
+:root {
+    --color-1: #6666ff;
+    --color-2: #6e66ff;
+    --color-3: #7566ff;
+    --color-4: #7d66ff;
+    --color-5: #8566ff;
+    --color-6: #8c66ff;
+    --color-7: #9466ff;
+    --color-8: #9c66ff;
+    --color-9: #a366ff;
+    --color-10: #ab66ff;
+    --color-11: #b266ff;
+    --color-12: #ba66ff;
+    --color-13: #c266ff;
+    --color-14: #c966ff;
+    --color-15: #d166ff;
+    --color-16: #d966ff;
+    --color-17: #e066ff;
+    --color-18: #e866ff;
+    --color-19: #f066ff;
+    --color-20: #f766ff;
+    --color-21: #ff66ff;
+}
+
+
+.content {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+body {
+    font-family: sans-serif;
+    background: linear-gradient(
+        to right,
+        var(--color-1),
+        var(--color-2),
+        var(--color-3),
+        var(--color-4),
+        var(--color-5),
+        var(--color-6),
+        var(--color-7),
+        var(--color-8),
+        var(--color-9),
+        var(--color-10),
+        var(--color-11),
+        var(--color-12),
+        var(--color-13),
+        var(--color-14),
+        var(--color-15),
+        var(--color-16),
+        var(--color-17),
+        var(--color-18),
+        var(--color-19),
+        var(--color-20),
+        var(--color-21)
+    );
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+    min-height: 100vh;
+}
+
+.signup-container {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    border: 2px solid darklavender;
+    /* margin: 0 20px; removed to center*/
+}
+
+.signup-container h2 {
+    font-family: "Lucida Handwriting", cursive;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.signup-container hr {
+    margin-bottom: 10px;
+    border: 1px solid darklavender;
+}
+
+.signup-container input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.signup-container button {
+    background-color: #9370DB;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.signup-container button:hover {
+    background-color: #800080;
+}
+
+.login-link {
+    text-align: right;
+    margin-top: 10px;
+}
+
+.login-link a {
+    color: #3498db;
+    text-decoration: none;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}

@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do Manager</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* Your existing CSS from the login page, modified for signup */
+        :root {
+            --color-1: #6666ff;
+            --color-2: #6e66ff;
+            --color-3: #7566ff;
+            --color-4: #7d66ff;
+            --color-5: #8566ff;
+            --color-6: #8c66ff;
+            --color-7: #9466ff;
+            --color-8: #9c66ff;
+            --color-9: #a366ff;
+            --color-10: #ab66ff;
+            --color-11: #b266ff;
+            --color-12: #ba66ff;
+            --color-13: #c266ff;
+            --color-14: #c966ff;
+            --color-15: #d166ff;
+            --color-16: #d966ff;
+            --color-17: #e066ff;
+            --color-18: #e866ff;
+            --color-19: #f066ff;
+            --color-20: #f766ff;
+            --color-21: #ff66ff;
+        }
+
+        body {
+            font-family: sans-serif;
+            background: linear-gradient(
+                to right,
+                var(--color-1),
+                var(--color-2),
+                var(--color-3),
+                var(--color-4),
+                var(--color-5),
+                var(--color-6),
+                var(--color-7),
+                var(--color-8),
+                var(--color-9),
+                var(--color-10),
+                var(--color-11),
+                var(--color-12),
+                var(--color-13),
+                var(--color-14),
+                var(--color-15),
+                var(--color-16),
+                var(--color-17),
+                var(--color-18),
+                var(--color-19),
+                var(--color-20),
+                var(--color-21)
+            );
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .header {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            flex-direction: row;
+            width: 100%; /* Ensure header spans full width */
+        }
+
+        .header h1 {
+            font-family: "Lucida Handwriting", cursive;
+            text-align: center;
+            margin-left: 300px; /* Adjusted to original value for large screens */
+            margin-right: 0;
+            font-size: 4.5em;
+            color: #fff;
+        }
+
+        .content {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .login-container {
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+            width: 300px;
+            border: 2px solid darklavender;
+            margin: 0 20px;
+            position: relative; /* For message box overlay if needed */
+        }
+
+        .login-container h2 {
+            font-family: "Lucida Handwriting", cursive;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .login-container hr {
+            margin-bottom: 10px;
+            border: 1px solid darklavender;
+        }
+
+        .login-container input {
+            width: calc(100% - 20px); /* Account for padding */
+            padding: 10px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+
+        .login-container button {
+            background-color: #9370DB;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+            font-size: 1.1em;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        .login-container button:hover {
+            background-color: #800080;
+            transform: translateY(-2px);
+        }
+
+        .signup-link {
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        .signup-link a {
+            color: #9370DB;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .signup-link a:hover {
+            text-decoration: underline;
+            color: #800080;
+        }
+
+        .image-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin:0 20px;
+        }
+
+        .image-container img {
+            max-width: 280px;
+            height: 500px;
+            border-radius: 8px;
+        }
+
+        .flex-container {
+            display: flex;
+            align-items: center;
+            margin-top: -50px;
+            justify-content: center; /* Center the flex items */
+            width: 100%; /* Ensure it takes full width */
+        }
+
+        .home-button {
+            background-color: #9370DB;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-left: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .home-button:hover {
+            background-color: #800080;
+        }
+        
+        .home-button i {
+            font-size: 2em;
+        }
+
+        .home-button span {
+            margin-top: 5px;
+            font-size: 0.8em;
+        }
+
+        .about-us-button {
+            background-color: #9370DB;
+            color: white;
+            border: none;
+            padding: 15px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-left: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: background-color 0.3s ease;
+        }
+
+        .about-us-button:hover {
+            background-color: #800080;
+        }
+
+        .about-us-button i {
+            font-size: 2em;
+        }
+
+        .about-us-button span {
+            margin-top: 5px;
+            font-size: 0.8em;
+        }
+
+        .forgot-password-link a {
+            font-size: 0.9em;
+            color: #9370DB;
+            text-decoration: none;
+        }
+
+        .forgot-password-link a:hover {
+            text-decoration: underline;
+            color: #800080;
+        }
+
+        /* Message Box Styling - Added from signup.html */
+        .message-box-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: visibility 0s, opacity 0.3s ease;
+        }
+
+        .message-box-overlay.visible {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .message-box-content {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            position: relative;
+        }
+
+        .message-box-content h3 {
+            margin-top: 0;
+            color: #333;
+        }
+
+        .message-box-content p {
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        .message-box-content button {
+            background-color: #9370DB;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            width: auto; /* Override full width for this button */
+            margin-top: 0; /* Override margin-top */
+        }
+
+        .message-box-content button:hover {
+            background-color: #800080;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .header h1 {
+                font-size: 3.5em;
+                margin-left: 50px; /* Adjust margin for smaller screens */
+            }
+            .home-button, .about-us-button {
+                padding: 10px 15px;
+                margin-left: 20px; /* Adjust for smaller screens */
+            }
+            .home-button i, .about-us-button i {
+                font-size: 1.5em;
+            }
+            .home-button span, .about-us-button span {
+                font-size: 0.7em;
+            }
+            .flex-container {
+                flex-direction: column;
+                margin-top: 0; /* Reset margin-top */
+            }
+            .image-container {
+                margin: 10px 0; /* Adjust margin for vertical layout */
+            }
+            .image-container img {
+                max-width: 200px;
+                height: auto; /* Maintain aspect ratio */
+            }
+            .login-container {
+                width: 80%;
+                max-width: 350px;
+                margin: 20px auto;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 3em;
+                margin-left: 0; /* Center title */
+            }
+            .home-button, .about-us-button {
+                margin-left: 10px; /* Further adjust for smaller screens */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                flex-direction: column;
+            }
+            .header h1 {
+                font-size: 2.5em;
+                margin-bottom: 10px;
+            }
+            .home-button, .about-us-button {
+                width: 80%;
+                margin: 5px auto;
+            }
+            .login-container {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>To-Do Manager</h1>
+        <a href="get_started.html">
+            <button class="home-button" id="homeButton">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
+            </button>
+        </a>
+        <a href="about_us.html">
+            <button class="about-us-button" id="aboutUsButton">
+                <i class="fas fa-info-circle"></i>
+                <span>About Us</span>
+            </button>
+        </a>
+    </div>
+    <div class="content">
+        <div class="flex-container">
+            <div class="image-container">
+                <img src="images/boy.jpeg" alt="Boy Image">
+            </div>
+            <div class="login-container">
+                <h2>Login</h2>
+                <hr>
+                <form id="loginForm">
+                    <input type="text" id="usernameOrEmail" placeholder="Username or Email" name="usernameOrEmail" required>
+                    <input type="password" id="password" placeholder="Password" name="password" required>
+                    <button type="submit" id="loginButton">Login</button>
+                    <div id="errorMessage" style="color: red; display: none; margin-top: 10px;"></div>
+                    <div class="forgot-password-link" style="text-align: right; margin-top: 5px;">
+                        <a href="forgot_password.html" id="forgotPasswordLink">Forgot Password?</a>
+                    </div>
+                    <div class="signup-link">
+                        <a href="Sign Up/signup.html" id="signupLink">Sign Up</a>
+                    </div>
+                </form>
+            </div>
+            <div class="image-container">
+                <img src="images/girl.jpeg" alt="Girl Image">
+            </div>
+        </div>
+    </div>
+
+    <div id="messageBoxOverlay" class="message-box-overlay">
+        <div class="message-box-content">
+            <h3 id="messageBoxTitle"></h3>
+            <p id="messageBoxText"></p>
+            <button id="messageBoxCloseButton">OK</button>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:5000';
+
+        // Test server connection
+        async function testServerConnection() {
+            try {
+                const response = await fetch(`${API_URL}/api/test`);
+                const data = await response.json();
+                console.log('Server test response:', data);
+                return true;
+            } catch (error) {
+                console.error('Server connection test failed:', error);
+                return false;
+            }
+        }
+
+        // Test connection on page load
+        window.addEventListener('load', () => {
+            testServerConnection();
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const usernameOrEmail = document.getElementById('usernameOrEmail').value.trim();
+            const password = document.getElementById('password').value;
+            const errorMessage = document.getElementById('errorMessage');
+            
+            if (!usernameOrEmail || !password) {
+                errorMessage.textContent = 'Please fill in all fields';
+                errorMessage.style.display = 'block';
+                return;
+            }
+            
+            try {
+                console.log('Attempting login for:', usernameOrEmail);
+                
+                // First test the server connection
+                const isServerConnected = await testServerConnection();
+                if (!isServerConnected) {
+                    errorMessage.textContent = 'Unable to connect to server. Please try again.';
+                    errorMessage.style.display = 'block';
+                    return;
+                }
+
+                const response = await fetch(`${API_URL}/api/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify({ 
+                        usernameOrEmail: usernameOrEmail,
+                        password: password 
+                    })
+                });
+                
+                console.log('Response status:', response.status);
+                
+                const data = await response.json();
+                console.log('Response data:', data);
+                
+                if (data.success) {
+                    // Store user data in localStorage
+                    localStorage.setItem('userData', JSON.stringify(data.user));
+                    // Redirect to home page with user info
+                    window.location.href = `home page/home.html?usernameOrEmail=${encodeURIComponent(usernameOrEmail)}`;
+                } else {
+                    errorMessage.textContent = data.message || 'Login failed. Please try again.';
+                    errorMessage.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                errorMessage.textContent = 'Failed to connect to the server. Please try again.';
+                errorMessage.style.display = 'block';
+            }
+        });
+
+        // Clear error message when user starts typing
+        document.getElementById('usernameOrEmail').addEventListener('input', function() {
+            document.getElementById('errorMessage').style.display = 'none';
+        });
+
+        document.getElementById('password').addEventListener('input', function() {
+            document.getElementById('errorMessage').style.display = 'none';
+        });
+
+        // Navigation button event listener for Home
+        document.getElementById('homeButton').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default link behavior
+            window.location.href = "get_started.html"; // Corrected path to get_started.html
+        });
+
+        // Navigation button event listener for About Us
+        document.getElementById('aboutUsButton').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default link behavior
+            window.location.href = "about_us.html"; // Assuming about_us.html is in the same directory as index.html
+        });
+
+        // Signup link already has correct href, so no JS redirect needed
+        // document.getElementById('signupLink').addEventListener('click', function() {
+        //     console.log('Sign up link clicked');
+        // });
+    </script>
+</body>
+</html>

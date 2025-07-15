@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interface Customization - Task Manager</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #45b7d1 0%, #96c93d 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #45b7d1, #96c93d);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            z-index: 2;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(-5px);
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .settings-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .settings-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            border-color: #45b7d1;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: #45b7d1;
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #45b7d1;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(69, 183, 209, 0.1);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #45b7d1;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .toggle-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .toggle-text {
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .toggle-description {
+            font-size: 0.9rem;
+            color: #718096;
+            margin-top: 5px;
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(72, 187, 120, 0.3);
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(72, 187, 120, 0.4);
+        }
+
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .theme-card {
+            border: 3px solid #e2e8f0;
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .theme-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .theme-card.selected {
+            border-color: #45b7d1;
+            background: linear-gradient(135deg, #45b7d1, #96c93d);
+            color: white;
+        }
+
+        .theme-preview {
+            width: 100%;
+            height: 80px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+        }
+
+        .theme-light { background: linear-gradient(135deg, #f7fafc, #edf2f7); }
+        .theme-dark { background: linear-gradient(135deg, #2d3748, #4a5568); color: white; }
+        .theme-blue { background: linear-gradient(135deg, #ebf8ff, #bee3f8); }
+        .theme-green { background: linear-gradient(135deg, #f0fff4, #c6f6d5); }
+        .theme-purple { background: linear-gradient(135deg, #faf5ff, #e9d8fd); }
+        .theme-orange { background: linear-gradient(135deg, #fffaf0, #fed7aa); }
+
+        .color-palette {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(60px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .color-option {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .color-option:hover {
+            transform: scale(1.1);
+        }
+
+        .color-option.selected {
+            border-color: #2d3748;
+            transform: scale(1.1);
+        }
+
+        .color-option.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        .layout-preview {
+            width: 100%;
+            height: 120px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            margin-top: 10px;
+            position: relative;
+            background: #f8fafc;
+        }
+
+        .layout-compact .layout-preview {
+            height: 80px;
+        }
+
+        .layout-detailed .layout-preview {
+            height: 150px;
+        }
+
+        .layout-minimal .layout-preview {
+            height: 60px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="back-button" onclick="goBack()">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <h1><i class="fas fa-palette"></i> Interface Customization</h1>
+            <p>Personalize the look and feel of your Task Manager</p>
+        </div>
+
+        <div class="content">
+            <!-- Theme Selection -->
+            <div class="settings-section">
+                <h2 class="section-title">
+                    <i class="fas fa-paint-brush"></i>
+                    Theme Selection
+                </h2>
+                <div class="theme-grid">
+                    <div class="theme-card selected" onclick="selectTheme(this, 'light')">
+                        <div class="theme-preview theme-light">
+                            <i class="fas fa-sun"></i>
+                        </div>
+                        <h4>Light Theme</h4>
+                        <p>Clean and bright interface</p>
+                    </div>
+                    <div class="theme-card" onclick="selectTheme(this, 'dark')">
+                        <div class="theme-preview theme-dark">
+                            <i class="fas fa-moon"></i>
+                        </div>
+                        <h4>Dark Theme</h4>
+                        <p>Easy on the eyes</p>
+                    </div>
+                    <div class="theme-card" onclick="selectTheme(this, 'blue')">
+                        <div class="theme-preview theme-blue">
+                            <i class="fas fa-water"></i>
+                        </div>
+                        <h4>Ocean Blue</h4>
+                        <p>Calming blue tones</p>
+                    </div>
+                    <div class="theme-card" onclick="selectTheme(this, 'green')">
+                        <div class="theme-preview theme-green">
+                            <i class="fas fa-leaf"></i>
+                        </div>
+                        <h4>Nature Green</h4>
+                        <p>Fresh and natural</p>
+                    </div>
+                    <div class="theme-card" onclick="selectTheme(this, 'purple')">
+                        <div class="theme-preview theme-purple">
+                            <i class="fas fa-gem"></i>
+                        </div>
+                        <h4>Royal Purple</h4>
+                        <p>Elegant and sophisticated</p>
+                    </div>
+                    <div class="theme-card" onclick="selectTheme(this, 'orange')">
+                        <div class="theme-preview theme-orange">
+                            <i class="fas fa-fire"></i>
+                        </div>
+                        <h4>Sunset Orange</h4>
+                        <p>Warm and energetic</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Color Customization -->
+            <div class="settings-section">
+                <h2 class="section-title">
+                    <i class="fas fa-palette"></i>
+                    Color Customization
+                </h2>
+                <div class="form-group">
+                    <label>Primary Color</label>
+                    <div class="color-palette">
+                        <div class="color-option selected" style="background: #45b7d1;" onclick="selectColor(this, '#45b7d1')"></div>
+                        <div class="color-option" style="background: #ff6b6b;" onclick="selectColor(this, '#ff6b6b')"></div>
+                        <div class="color-option" style="background: #4ecdc4;" onclick="selectColor(this, '#4ecdc4')"></div>
+                        <div class="color-option" style="background: #f093fb;" onclick="selectColor(this, '#f093fb')"></div>
+                        <div class="color-option" style="background: #43e97b;" onclick="selectColor(this, '#43e97b')"></div>
+                        <div class="color-option" style="background: #4facfe;" onclick="selectColor(this, '#4facfe')"></div>
+                        <div class="color-option" style="background: #667eea;" onclick="selectColor(this, '#667eea')"></div>
+                        <div class="color-option" style="background: #f093fb;" onclick="selectColor(this, '#f093fb')"></div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Accent Color</label>
+                    <div class="color-palette">
+                        <div class="color-option" style="background: #96c93d;" onclick="selectAccentColor(this, '#96c93d')"></div>
+                        <div class="color-option" style="background: #ee5a24;" onclick="selectAccentColor(this, '#ee5a24')"></div>
+                        <div class="color-option" style="background: #44a08d;" onclick="selectAccentColor(this, '#44a08d')"></div>
+                        <div class="color-option" style="background: #f5576c;" onclick="selectAccentColor(this, '#f5576c')"></div>
+                        <div class="color-option" style="background: #38f9d7;" onclick="selectAccentColor(this, '#38f9d7')"></div>
+                        <div class="color-option" style="background: #00f2fe;" onclick="selectAccentColor(this, '#00f2fe')"></div>
+                        <div class="color-option" style="background: #764ba2;" onclick="selectAccentColor(this, '#764ba2')"></div>
+                        <div class="color-option" style="background: #f093fb;" onclick="selectAccentColor(this, '#f093fb')"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Layout Options -->
+            <div class="settings-section">
+                <h2 class="section-title">
+                    <i class="fas fa-th-large"></i>
+                    Layout Options
+                </h2>
+                <div class="grid-3">
+                    <div class="form-group">
+                        <label>Task Layout</label>
+                        <select id="taskLayout" class="form-control">
+                            <option value="detailed">Detailed Cards</option>
+                            <option value="compact">Compact List</option>
+                            <option value="minimal">Minimal View</option>
+                        </select>
+                        <div class="layout-preview" id="layoutPreview"></div>
+                    </div>
+                    <div class="form-group">
+                        <label>Side Panel Width</label>
+                        <select id="sidePanelWidth" class="form-control">
+                            <option value="narrow">Narrow (250px)</option>
+                            <option value="medium" selected>Medium (300px)</option>
+                            <option value="wide">Wide (350px)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Font Size</label>
+                        <select id="fontSize" class="form-control">
+                            <option value="small">Small (12px)</option>
+                            <option value="medium" selected>Medium (14px)</option>
+                            <option value="large">Large (16px)</option>
+                            <option value="xlarge">Extra Large (18px)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Animation Settings -->
+            <div class="settings-section">
+                <h2 class="section-title">
+                    <i class="fas fa-magic"></i>
+                    Animation Settings
+                </h2>
+                <div class="toggle-label">
+                    <div>
+                        <div class="toggle-text">Enable Animations</div>
+                        <div class="toggle-description">Show smooth transitions and animations</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="toggle-label">
+                    <div>
+                        <div class="toggle-text">Hover Effects</div>
+                        <div class="toggle-description">Show effects when hovering over elements</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="animationSpeed">Animation Speed</label>
+                    <select id="animationSpeed" class="form-control">
+                        <option value="slow">Slow</option>
+                        <option value="normal" selected>Normal</option>
+                        <option value="fast">Fast</option>
+                        <option value="instant">Instant (No animations)</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Save Button -->
+            <button class="save-btn" onclick="saveSettings()">
+                <i class="fas fa-save"></i> Save All Changes
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+
+        function selectTheme(card, theme) {
+            document.querySelectorAll('.theme-card').forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            // Apply theme preview
+            document.body.style.setProperty('--theme', theme);
+        }
+
+        function selectColor(element, color) {
+            document.querySelectorAll('.color-palette .color-option').forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        function selectAccentColor(element, color) {
+            document.querySelectorAll('.color-palette .color-option').forEach(opt => opt.classList.remove('selected'));
+            element.classList.add('selected');
+        }
+
+        // Layout preview update
+        document.getElementById('taskLayout').addEventListener('change', function() {
+            const preview = document.getElementById('layoutPreview');
+            preview.className = 'layout-preview';
+            if (this.value === 'compact') {
+                preview.style.height = '80px';
+            } else if (this.value === 'minimal') {
+                preview.style.height = '60px';
+            } else {
+                preview.style.height = '120px';
+            }
+        });
+
+        function saveSettings() {
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fas fa-check"></i> Saved Successfully!';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }, 2000);
+            }, 1500);
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                goBack();
+            }
+        });
+    </script>
+</body>
+</html> 

@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Management Settings - Task Manager</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            z-index: 2;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(-5px);
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .settings-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .settings-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            border-color: #4ecdc4;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: #4ecdc4;
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #4ecdc4;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(78, 205, 196, 0.1);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #4ecdc4;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .toggle-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .toggle-text {
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .toggle-description {
+            font-size: 0.9rem;
+            color: #718096;
+            margin-top: 5px;
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(72, 187, 120, 0.3);
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(72, 187, 120, 0.4);
+        }
+
+        .priority-preview {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .priority-badge {
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: white;
+        }
+
+        .priority-high { background: #e53e3e; }
+        .priority-medium { background: #d69e2e; }
+        .priority-low { background: #38a169; }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .category-item {
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+        }
+
+        .category-item:hover {
+            border-color: #4ecdc4;
+            background: white;
+            transform: translateY(-2px);
+        }
+
+        .category-item.selected {
+            border-color: #4ecdc4;
+            background: #4ecdc4;
+            color: white;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="back-button" onclick="goBack()">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <h1><i class="fas fa-tasks"></i> Task Management Settings</h1>
+            <p>Configure your task preferences and workflow</p>
+        </div>
+
+        <div class="content">
+            <!-- Default Task Settings -->
+            <div class="settings-section">
+                <h2 class="section-title">
+                    <i class="fas fa-cog"></i>
+                    Default Task Settings
+                </h2>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="defaultPriority">Default Priority</label>
+                        <select id="defaultPriority" class="form-control">
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                            <option value="Low">Low</option>
+                        </select>
+                        <div class="priority-preview">
+                            <span class="priority-badge priority-high">High</span>
+                            <span class="priority-badge priority-medium">Medium</span>
+                            <span class="priority-badge priority-low">Low</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="defaultCategory">Default Category</label>
+                        <select id="defaultCategory" class="form-control">
+                            <option value="General">General</option>
+                            <option value="Work">Work</option>
+                            <option value="Personal">Personal</option>
+                            <option value="Health">Health</option>
+                            <option value="Finance">Finance</option>
+                            <option value="Education">Education</option>
+                            <option value="Shopping">Shopping</option>
+                            <option value="Travel">Travel</option>
+                            <option value="Home">Home</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="defaultDeadline">Default Deadline</label>
+                        <select id="defaultDeadline" class="form-control">
+                            <option value="today">Today</option>
+                            <option value="tomorrow">Tomorrow</option>
+                            <option value="next_week">Next Week</option>
+                            <option value="none">No Default</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="defaultReminder">Default Reminder</label>
+                        <select id="defaultReminder" class="form-control">
+                            <option value="15min">15 minutes before</option>
+                            <option value="1hour">1 hour before</option>
+                            <option value="1day">1 day before</option>
+                            <option value="none">No reminder</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Task Display Settings -->
+            <div class="settings-section">
+                <h2 class="section-title">
+                    <i class="fas fa-eye"></i>
+                    Task Display Settings
+                </h2>
+                <div class="toggle-label">
+                    <div>
+                        <div class="toggle-text">Show Completed Tasks</div>
+                        <div class="toggle-description">Display completed tasks in the task list</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="toggle-label">
+                    <div>
+                        <div class="toggle-text">Show Task Numbers</div>
+                        <div class="toggle-description">Display sequential numbers for tasks</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="toggle-label">
+                    <div>
+                        <div class="toggle-text">Show Creation Timestamps</div>
+                        <div class="toggle-description">Display when tasks were created</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="tasksPerPage">Tasks Per Page</label>
+                    <select id="tasksPerPage" class="form-control">
+                        <option value="10">10 tasks</option>
+                        <option value="20" selected>20 tasks</option>
+                        <option value="50">50 tasks</option>
+                        <option value="100">100 tasks</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Task Behavior Settings -->
+            <div class="settings-section">
+                <h2 class="section-title">
+                    <i class="fas fa-magic"></i>
+                    Task Behavior Settings
+                </h2>
+                <div class="toggle-label">
+                    <div>
+                        <div class="toggle-text">Auto-archive Completed Tasks</div>
+                        <div class="toggle-description">Automatically move completed tasks to archive</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="toggle-label">
+                    <div>
+                        <div class="toggle-text">Enable Drag & Drop Reordering</div>
+                        <div class="toggle-description">Allow manual reordering of tasks</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="toggle-label">
+                    <div>
+                        <div class="toggle-text">Auto-save Drafts</div>
+                        <div class="toggle-description">Automatically save task drafts</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="autoSaveInterval">Auto-save Interval (minutes)</label>
+                    <select id="autoSaveInterval" class="form-control">
+                        <option value="1">1 minute</option>
+                        <option value="2" selected>2 minutes</option>
+                        <option value="5">5 minutes</option>
+                        <option value="10">10 minutes</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Category Management -->
+            <div class="settings-section">
+                <h2 class="section-title">
+                    <i class="fas fa-tags"></i>
+                    Category Management
+                </h2>
+                <div class="category-grid">
+                    <div class="category-item selected">General</div>
+                    <div class="category-item">Work</div>
+                    <div class="category-item">Personal</div>
+                    <div class="category-item">Health</div>
+                    <div class="category-item">Finance</div>
+                    <div class="category-item">Education</div>
+                    <div class="category-item">Shopping</div>
+                    <div class="category-item">Travel</div>
+                    <div class="category-item">Home</div>
+                    <div class="category-item">Other</div>
+                </div>
+                <div class="form-group" style="margin-top: 20px;">
+                    <label for="newCategory">Add New Category</label>
+                    <div style="display: flex; gap: 10px;">
+                        <input type="text" id="newCategory" class="form-control" placeholder="Enter category name">
+                        <button onclick="addCategory()" style="padding: 12px 20px; background: #4ecdc4; color: white; border: none; border-radius: 10px; cursor: pointer;">Add</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Save Button -->
+            <button class="save-btn" onclick="saveSettings()">
+                <i class="fas fa-save"></i> Save All Changes
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+
+        function addCategory() {
+            const input = document.getElementById('newCategory');
+            const categoryName = input.value.trim();
+            
+            if (categoryName) {
+                const categoryGrid = document.querySelector('.category-grid');
+                const newCategory = document.createElement('div');
+                newCategory.className = 'category-item';
+                newCategory.textContent = categoryName;
+                newCategory.onclick = function() {
+                    document.querySelectorAll('.category-item').forEach(item => item.classList.remove('selected'));
+                    this.classList.add('selected');
+                };
+                categoryGrid.appendChild(newCategory);
+                input.value = '';
+            }
+        }
+
+        // Category selection
+        document.querySelectorAll('.category-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.category-item').forEach(i => i.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+        function saveSettings() {
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fas fa-check"></i> Saved Successfully!';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }, 2000);
+            }, 1500);
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                goBack();
+            }
+        });
+    </script>
+</body>
+</html> 

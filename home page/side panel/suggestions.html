@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Suggestions</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #ffe2ab;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .suggestion-container {
+      background-color: #fff;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
+      width: 100%;
+      text-align: center;
+    }
+
+    .suggestion-container img {
+      width: 100px;
+      height: auto;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      font-weight: bold;
+      color: #132d84;
+      margin-bottom: 20px;
+    }
+
+    textarea {
+      width: 100%;
+      padding: 12px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 1em;
+      resize: none;
+      height: 80px;
+      margin-bottom: 20px;
+    }
+
+    .submit-btn, .back-btn {
+      background-color: #132d84;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin: 5px;
+    }
+
+    .submit-btn:hover, .back-btn:hover {
+      background-color: #0f2369;
+    }
+
+    .thank-you {
+      font-size: 1.2em;
+      color: #132d84;
+      margin-top: 20px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="suggestion-container">
+    <img src="https://cdn-icons-png.flaticon.com/512/942/942748.png" alt="To-Do List Icon">
+    <h1>Suggestions</h1>
+
+    <form id="suggestionForm">
+      <textarea placeholder="Your Suggestion..." required></textarea><br>
+      <button type="submit" class="submit-btn">Submit</button>
+      <button type="button" class="back-btn" onclick="history.back()">← Back</button>
+    </form>
+
+    <div class="thank-you" id="thankYouMessage">
+      ✨ Thank you for your suggestion!
+      <br><br>
+      <a href="../home.html">
+       <button class="back-btn" onclick="history.back()">← Back to Previous Page</button>
+      </a>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('suggestionForm');
+    const thankYouMessage = document.getElementById('thankYouMessage');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      form.style.display = 'none';
+      thankYouMessage.style.display = 'block';
+    });
+  </script>
+</body>
+</html>

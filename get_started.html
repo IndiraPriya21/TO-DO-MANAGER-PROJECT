@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To Do Manager</title>
+    <style>
+        body {
+            background-color: #175a87;
+            font-family: cursive, sans-serif;
+            margin: 0;
+            padding: 30px;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 1.1em;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 900px;
+            margin-bottom: 30px;
+            align-items: center;
+            margin-top: 40px; /* Added top margin to push header down */
+        }
+
+        .heading {
+            font-family: 'Lucida Handwriting', cursive; /* Changed to Lucida */
+            font-size: 3em;
+            margin: 0;
+        }
+
+        .signup-button {
+            background-color: #f0ad4e;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 1.2em;
+        }
+
+        .content {
+            display: flex;
+            width: 100%;
+            max-width: 900px;
+            align-items: center;
+            margin-bottom: 30px;
+            margin-top: 40px; /* Added top margin to move content down */
+        }
+
+        .quote-container {
+            flex-grow: 1;
+        }
+
+        .quote {
+            font-family: cursive;
+            font-style: normal;
+            font-size: 1.3em;
+            margin-bottom: 15px;
+        }
+
+        .description {
+            font-family: cursive;
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .get-started-button {
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 1.3em;
+        }
+
+        .image-container {
+            margin-left: 40px;
+        }
+
+        .image {
+            max-width: 500px; /* Increased image size */
+            height: auto;
+            border-radius: 7px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1 class="heading">To Do Manager</h1>
+        <a href="Sign Up/signup.html">
+        <button class="signup-button">Sign Up</button>
+        </a>
+    </div>
+
+    <div class="content">
+        <div class="quote-container">
+            <p class="quote">"The key is not to prioritize what's on your schedule, but to schedule your priorities."</p>
+            <p class="description">Stay on top of your daily goals and never miss a task again. Our to do manager helps you organize, prioritize, and track your progress with ease. Whether it's personal errands or team projects, manage it all in one smart space.</p>
+            <a href="index.html">
+            <button class="get-started-button">Get Started</button>
+            </a>
+        </div>
+        <div class="image-container">
+            <img src="images/get_started.jpg" alt="Image" class="image">
+        </div>
+    </div>
+</body>
+</html>

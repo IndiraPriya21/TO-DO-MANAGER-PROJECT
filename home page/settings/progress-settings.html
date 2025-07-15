@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Progress Tracking Settings - Task Manager</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            z-index: 2;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(-5px);
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .settings-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .settings-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            border-color: #f093fb;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: #f093fb;
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #f093fb;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(240, 147, 251, 0.1);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #f093fb;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .toggle-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .toggle-text {
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .toggle-description {
+            font-size: 0.9rem;
+            color: #718096;
+            margin-top: 5px;
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(72, 187, 120, 0.3);
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(72, 187, 120, 0.4);
+        }
+
+        .metric-card {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border-radius: 15px;
+            padding: 20px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-5px);
+            border-color: #f093fb;
+            box-shadow: 0 10px 25px rgba(240, 147, 251, 0.2);
+        }
+
+        .metric-card.selected {
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            color: white;
+            border-color: #f093fb;
+        }
+
+        .metric-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .goal-input {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            margin-top: 15px;
+        }
+
+        .goal-input input {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+
+        .goal-input button {
+            padding: 10px 15px;
+            background: #f093fb;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .goal-input button:hover {
+            background: #f5576c;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 20px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(135deg, #f093fb, #f5576c);
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="back-button" onclick="goBack()">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <h1><i class="fas fa-chart-line"></i> Progress Tracking Settings</h1>
+            <p>Configure your productivity analytics and goal tracking</p>
+        </div>
+
+        <div class="content">
+            <!-- Analytics Display -->
+            <div class="settings-section">
+                <h2 class="section-title">
+                    <i class="fas fa-chart-bar"></i>
+                    Analytics Display
+                </h2>
+                <div class="grid-3">
+                    <div class="metric-card selected" onclick="toggleMetric(this)">
+                        <div class="metric-icon">📊</div>
+                        <h4>Task Completion Rate</h4>
+                        <p>Daily/weekly completion percentage</p>
+                    </div>
+                    <div class="metric-card" onclick="toggleMetric(this)">
+                        <div class="metric-icon">⏰</div>
+                        <h4>Time Tracking</h4>
+                        <p>Time spent on tasks</p>
+                    </div>
+                    <div class="metric-card" onclick="toggleMetric(this)">
+                        <div class="metric-icon">🎯</div>
+                        <h4>Goal Progress</h4>
+                        <p>Progress towards set goals</p>
+                    </div>
+                    <div class="metric-card" onclick="toggleMetric(this)">
+                        <div class="metric-icon">📈</div>
+                        <h4>Productivity Trends</h4>
+                        <p>Weekly/monthly trends</p>
+                    </div>
+                    <div class="metric-card" onclick="toggleMetric(this)">
+                        <div class="metric-icon">🏆</div>
+                        <h4>Achievements</h4>
+                        <p>Milestones and badges</p>
+                    </div>
+                    <div class="metric-card" onclick="toggleMetric(this)">
+                        <div class="metric-icon">📅</div>
+                        <h4>Calendar View</h4>
+                        <p>Task distribution over time</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Goal Settings -->
+            <div class="settings-section">
+                <h2 class="section-title">
+                    <i class="fas fa-bullseye"></i>
+                    Goal Settings
+                </h2>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="dailyGoal">Daily Task Goal</label>
+                        <div class="goal-input">
+                            <input type="number" id="dailyGoal" value="5" min="1" max="50">
+                            <button onclick="updateGoal('daily')">Set</button>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 60%;"></div>
+                        </div>
+                        <small>3/5 tasks completed today</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="weeklyGoal">Weekly Task Goal</label>
+                        <div class="goal-input">
+                            <input type="number" id="weeklyGoal" value="25" min="1" max="200">
+                            <button onclick="updateGoal('weekly')">Set</button>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: 45%;"></div>
+                        </div>
+                        <small>11/25 tasks completed this week</small>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="monthlyGoal">Monthly Task Goal</label>
+                    <div class="goal-input">
+                        <input type="number" id="monthlyGoal" value="100" min="1" max="500">
+                        <button onclick="updateGoal('monthly')">Set</button>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-fill" style="width: 30%;"></div>
+                    </div>
+                    <small>30/100 tasks completed this month</small>
+                </div>
+            </div>
+
+            <!-- Notification Settings -->
+            <div class="settings-section">
+                <h2 class="section-title">
+                    <i class="fas fa-bell"></i>
+                    Progress Notifications
+                </h2>
+                <div class="toggle-label">
+                    <div>
+                        <div class="toggle-text">Goal Reminders</div>
+                        <div class="toggle-description">Get notified about goal progress</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="toggle-label">
+                    <div>
+                        <div class="toggle-text">Achievement Alerts</div>
+                        <div class="toggle-description">Celebrate when you reach milestones</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="toggle-label">
+                    <div>
+                        <div class="toggle-text">Weekly Reports</div>
+                        <div class="toggle-description">Receive weekly progress summaries</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label for="reportFrequency">Report Frequency</label>
+                    <select id="reportFrequency" class="form-control">
+                        <option value="daily">Daily</option>
+                        <option value="weekly" selected>Weekly</option>
+                        <option value="monthly">Monthly</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Data Export -->
+            <div class="settings-section">
+                <h2 class="section-title">
+                    <i class="fas fa-download"></i>
+                    Data Export & Backup
+                </h2>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>Export Progress Data</label>
+                        <button onclick="exportData('progress')" style="width: 100%; padding: 12px; background: #f093fb; color: white; border: none; border-radius: 10px; cursor: pointer; margin-top: 10px;">
+                            <i class="fas fa-download"></i> Export CSV
+                        </button>
+                    </div>
+                    <div class="form-group">
+                        <label>Backup Settings</label>
+                        <button onclick="backupSettings()" style="width: 100%; padding: 12px; background: #f5576c; color: white; border: none; border-radius: 10px; cursor: pointer; margin-top: 10px;">
+                            <i class="fas fa-cloud-upload-alt"></i> Backup Now
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Save Button -->
+            <button class="save-btn" onclick="saveSettings()">
+                <i class="fas fa-save"></i> Save All Changes
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+
+        function toggleMetric(card) {
+            card.classList.toggle('selected');
+        }
+
+        function updateGoal(type) {
+            const input = document.getElementById(type + 'Goal');
+            const value = input.value;
+            
+            // Simulate progress update
+            const progress = Math.floor(Math.random() * 100);
+            const progressBar = input.parentElement.nextElementSibling.querySelector('.progress-fill');
+            progressBar.style.width = progress + '%';
+            
+            // Update the small text
+            const smallText = progressBar.parentElement.nextElementSibling;
+            smallText.textContent = `${Math.floor(progress * value / 100)}/${value} tasks completed`;
+        }
+
+        function exportData(type) {
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Exporting...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fas fa-check"></i> Exported!';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }, 2000);
+            }, 1500);
+        }
+
+        function backupSettings() {
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Backing up...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fas fa-check"></i> Backed up!';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }, 2000);
+            }, 1500);
+        }
+
+        function saveSettings() {
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fas fa-check"></i> Saved Successfully!';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }, 2000);
+            }, 1500);
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                goBack();
+            }
+        });
+    </script>
+</body>
+</html> 

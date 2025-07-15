@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Complaint Form - ToDo Manager</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen" style="background-color: #ffe2ab;">
+
+  <div class="max-w-2xl mx-auto mt-10 p-6 bg-white shadow-lg rounded-2xl">
+    <h2 class="text-2xl font-bold text-center mb-6 text-gray-800">🛠 Complaint Form</h2>
+
+    <form id="complaintForm" class="space-y-4">
+      <!-- Complaint Category -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Complaint Category</label>
+        <select id="category" class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-400" required>
+          <option value="">-- Select a category --</option>
+          <option>Bug/Glitch</option>
+          <option>Task Syncing Issue</option>
+          <option>Notification Problem</option>
+          <option>UI/UX Confusion</option>
+          <option>Data Loss</option>
+          <option>Feature Not Working</option>
+          <option>Other</option>
+        </select>
+      </div>
+
+      <!-- Subject -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Subject</label>
+        <input id="subject" type="text" class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-400" placeholder="e.g., Tasks not saving" required />
+      </div>
+
+      <!-- Description -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Description</label>
+        <textarea id="description" rows="4" class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-400" placeholder="Describe the issue in detail..." required></textarea>
+      </div>
+
+      <!-- Date and Time -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Date & Time of Issue</label>
+        <input type="datetime-local" class="w-full mt-1 p-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-400" />
+      </div>
+
+      <!-- Screenshot -->
+      <div>
+        <label class="block text-sm font-medium text-gray-700">Attach Screenshot (optional)</label>
+        <input type="file" class="w-full mt-1 p-1 border border-gray-300 rounded-lg bg-white text-sm" />
+      </div>
+
+      <!-- Submit -->
+      <div class="text-center">
+        <button type="submit" class="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 px-6 rounded-lg shadow-md transition duration-200">
+          Submit Complaint
+        </button>
+        <!--GO Back-->
+        <a href="../home.html" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold py-2 px-6 rounded-lg shadow-md transition duration-200">
+         Go Back
+        </a>
+      </div>
+    </form>
+  </div>
+
+  <!-- Thank You Modal -->
+  <div id="thankYouModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center hidden">
+    <div class="bg-white rounded-2xl shadow-xl p-6 max-w-sm w-full text-center">
+      <h3 class="text-xl font-semibold text-gray-800 mb-4">🎉 Thank You!</h3>
+      <p class="text-gray-600 mb-6">Your complaint has been submitted successfully.</p>
+      <button onclick="closeModal()" class="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg">
+        Close
+      </button>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('complaintForm');
+    const modal = document.getElementById('thankYouModal');
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const category = document.getElementById('category').value.trim();
+      const subject = document.getElementById('subject').value.trim();
+      const description = document.getElementById('description').value.trim();
+
+      if (!category || !subject || !description) {
+        alert("Please fill in all required fields: Complaint Category, Subject, and Description.");
+        return;
+      }
+
+      // If all good, show the modal
+      modal.classList.remove('hidden');
+    });
+
+    function closeModal() {
+      modal.classList.add('hidden');
+      form.reset(); // optional: reset form after closing
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+:root {
+    --color-1: #6666ff;
+    --color-2: #6e66ff;
+    --color-3: #7566ff;
+    --color-4: #7d66ff;
+    --color-5: #8566ff;
+    --color-6: #8c66ff;
+    --color-7: #9466ff;
+    --color-8: #9c66ff;
+    --color-9: #a366ff;
+    --color-10: #ab66ff;
+    --color-11: #b266ff;
+    --color-12: #ba66ff;
+    --color-13: #c266ff;
+    --color-14: #c966ff;
+    --color-15: #d166ff;
+    --color-16: #d966ff;
+    --color-17: #e066ff;
+    --color-18: #e866ff;
+    --color-19: #f066ff;
+    --color-20: #f766ff;
+    --color-21: #ff66ff;
+}
+
+body {
+    font-family: sans-serif;
+    background: linear-gradient(
+        to right,
+        var(--color-1),
+        var(--color-2),
+        var(--color-3),
+        var(--color-4),
+        var(--color-5),
+        var(--color-6),
+        var(--color-7),
+        var(--color-8),
+        var(--color-9),
+        var(--color-10),
+        var(--color-11),
+        var(--color-12),
+        var(--color-13),
+        var(--color-14),
+        var(--color-15),
+        var(--color-16),
+        var(--color-17),
+        var(--color-18),
+        var(--color-19),
+        var(--color-20),
+        var(--color-21)
+    );
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    flex-direction: column;
+}
+
+.header h1 {
+    font-family: "Lucida Handwriting", cursive;
+    text-align: center;
+    margin: 0;
+    font-size: 4.5em;
+    color: #fff; /* Change text color for better visibility */
+}
+
+.content {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-container {
+    background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent white for contrast */
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+    width: 300px;
+    border: 2px solid darklavender;
+    margin: 0 20px; /* Space between login and images */
+}
+
+.login-container h2 {
+    font-family: "Lucida Handwriting", cursive;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.login-container hr {
+    margin-bottom: 10px;
+    border: 1px solid darklavender;
+}
+
+.login-container input {
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.login-container button {
+    background-color: #9370DB;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+}
+
+.login-container button:hover {
+    background-color: #800080;
+}
+
+.signup-link {
+    text-align: right;
+    margin-top: 10px;
+}
+
+.image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.image-container img {
+    max-width: 280px; /* slightly smaller than half of the image container to have some space */
+    height: auto;
+    border-radius: 8px;
+}
+ 
+.flex-container {
+    display: flex;
+    align-items: center; /* Center items vertically */
+}

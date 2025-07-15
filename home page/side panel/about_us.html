@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>About Us</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #ffe2ab;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+
+    .about-container {
+      background-color: white;
+      padding: 40px;
+      border-radius: 15px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+      max-width: 700px;
+      text-align: center;
+    }
+
+    .about-container img {
+      width: 120px;
+      height: auto;
+      margin-bottom: 20px;
+    }
+
+    .about-container h1 {
+      font-size: 2.5em;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #132d84;
+    }
+
+    .about-container p {
+      font-size: 1.1em;
+      color: #132d84;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+
+    .back-button {
+      padding: 10px 20px;
+      background-color: #132d84;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1em;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .back-button:hover {
+      background-color: #0f2369;
+    }
+  </style>
+</head>
+<body>
+  <div class="about-container">
+    <img src="https://cdn-icons-png.flaticon.com/512/942/942748.png" alt="To-Do List Icon">
+    <h1>About Us</h1>
+    <p>
+      Our ToDo Manager will help you stay organized, focused, and stress-free. Whether it's work, school, or daily chores, our app makes managing tasks easy and efficient.<br><br>
+      With a clean design and simple features, you can add, track, and complete your to-dos without any hassle.<br><br>
+      Our mission is to help you get things done—one task at a time.<br><br>
+      Stay productive, stay in control.
+    </p>
+    <a href="../home.html">
+     <button class="back-button" onclick="history.back()">← Go Back</button>
+    </a>
+  </div>
+</body>
+</html>

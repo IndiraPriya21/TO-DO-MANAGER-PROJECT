@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Manager - Date View</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            margin: 0;
+            font-family: sans-serif;
+            background-image: url('https://via.placeholder.com/1920x1080');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        header, footer {
+            background-color: transparent;
+            padding: 10px;
+            text-align: center;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        header {
+            justify-content: flex-start;
+        }
+
+        footer {
+            justify-content: center;
+        }
+
+        .highlighter {
+            background-color: rgba(150, 160, 235, 0.5);
+            width: 80.33%;
+            max-width: 1200px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            position: relative;
+            padding: 60px;
+            box-sizing: border-box;
+            border-radius: 10px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            align-items: flex-start;
+            min-height: 80vh;
+        }
+
+        .box {
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            padding: 15px;
+            box-sizing: border-box;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            margin-bottom: 20px;
+        }
+
+        /* Column container for today's + tomorrow's goals */
+        .column-container {
+            display: flex;
+            flex-direction: column;
+            width: 48%;
+        }
+
+        /* Column container for to-do + remainders */
+        .right-column-container {
+            display: flex;
+            flex-direction: column;
+            width: 48%;
+        }
+
+        #today-goals,
+        #tomorrow-goals,
+        #todo-list,
+        #remainders {
+            width: 100%;
+        }
+
+        #today-goals {
+            height: 300px;
+        }
+
+        #tomorrow-goals {
+            height: 300px;
+            margin-bottom: 0;
+        }
+
+        #todo-list {
+            height: 510px;
+        }
+
+        #remainders {
+            height: 200px;
+        }
+
+        .home-button {
+            padding: 0;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 30px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .home-image {
+            margin-top: 50px;
+            width: 35px;
+            height: auto;
+            border-radius: 5px;
+            margin-bottom: 4px;
+        }
+
+        .home-text {
+            font-size: 20px;
+            color: #333;
+            text-align: center;
+        }
+
+        .username-date-container {
+            display: flex;
+            align-items: center;
+            margin-top: 0;
+            margin-left: 0;
+            margin-bottom: 20px;
+            width: 100%;
+            justify-content: flex-start;
+            flex-direction: row;
+        }
+
+        .username {
+            margin-left: 10px;
+            margin-right: 20px;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .profile-image {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 10px;
+            border: 2px solid #ddd;
+        }
+
+        .date-button {
+            background-color: #ddd;
+            color: #333;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        /* Category and tag styles */
+        .category-badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 8px;
+            color: white;
+        }
+
+        .category-General { background-color: #6b7280; }
+        .category-Work { background-color: #3b82f6; }
+        .category-Personal { background-color: #10b981; }
+        .category-Health { background-color: #ef4444; }
+        .category-Finance { background-color: #f59e0b; }
+        .category-Education { background-color: #8b5cf6; }
+        .category-Shopping { background-color: #ec4899; }
+        .category-Travel { background-color: #06b6d4; }
+        .category-Home { background-color: #84cc16; }
+        .category-Other { background-color: #64748b; }
+
+        .tags-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-top: 4px;
+        }
+
+        .tag {
+            background-color: #e5e7eb;
+            color: #374151;
+            padding: 2px 6px;
+            border-radius: 8px;
+            font-size: 0.7rem;
+            border: 1px solid #d1d5db;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="home.html" class="home-button">
+            <img src="home.png" alt="Back to Home" class="home-image">
+            <span class="home-text">Back to Home</span>
+        </a>
+    </header>
+
+    <div class="highlighter">
+        <div class="username-date-container">
+            <img src="profile.jpeg" alt="Profile" class="profile-image">
+            <span class="username" id="usernameDisplay"></span>
+            <button class="date-button" id="dateButton">Date</button>
+        </div>
+
+        <!-- Left Column: Today's and Tomorrow's Goals -->
+        <div class="column-container">
+            <div class="box" id="today-goals">
+                <h2>Today's Goals</h2>
+                <hr>
+                <div id="todayTasksList"></div>
+            </div>
+
+            <div class="box" id="tomorrow-goals">
+                <h2>Tomorrow's Goals</h2>
+                <hr>
+                <div id="tomorrowTasksList"></div>
+            </div>
+        </div>
+
+        <!-- Right Column: To-Do List and Remainders -->
+        <div class="right-column-container">
+            <div class="box" id="todo-list">
+                <h2>To-Do List</h2>
+                <hr>
+                <div id="todoTasksList"></div>
+            </div>
+
+            <div class="box" id="remainders">
+                <h2>Reminders</h2>
+                <hr>
+                <div id="remindersList"></div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+    </footer>
+
+    <script>
+        // Global variables
+        const API_URL = 'http://localhost:5000';
+        let currentUser = JSON.parse(localStorage.getItem('currentUser')) || null;
+        let tasks = JSON.parse(localStorage.getItem('userTasks')) || [];
+
+        // Function to format date for comparison
+        function formatDate(date) {
+            return new Date(date).toISOString().split('T')[0];
+        }
+
+        // Function to get today's and tomorrow's dates
+        function getDates() {
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            return {
+                today: formatDate(today),
+                tomorrow: formatDate(tomorrow)
+            };
+        }
+
+        // Function to display user profile
+        function displayUserProfile() {
+            if (currentUser) {
+                const fullName = `${currentUser.firstName} ${currentUser.lastName}`;
+                document.getElementById('usernameDisplay').textContent = fullName;
+            }
+        }
+
+        // Function to create task element
+        function createTaskElement(task) {
+            const taskDiv = document.createElement('div');
+            taskDiv.className = 'task-item p-2 mb-2 bg-white rounded shadow';
+            
+            const taskStatus = task.done ? 'line-through text-gray-500' : '';
+            const reminderDate = task.reminder ? new Date(task.reminder).toLocaleString() : 'No reminder set';
+            const categoryBadge = task.category ? `<span class="category-badge category-${task.category}">${task.category}</span>` : '';
+            const tagsHtml = task.tags && task.tags.length > 0 
+                ? `<div class="tags-container">${task.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}</div>` 
+                : '';
+            
+            taskDiv.innerHTML = `
+                <div class="flex justify-between items-center ${taskStatus}">
+                    <div class="flex-grow">
+                        <div class="flex items-center gap-2 mb-1">
+                            <p class="font-semibold">${task.text}</p>
+                            ${categoryBadge}
+                        </div>
+                        <p class="text-sm text-gray-600">Priority: ${task.priority}</p>
+                        <p class="text-sm text-gray-600">Deadline: ${new Date(task.deadline).toLocaleDateString()}</p>
+                        ${task.reminder ? `<p class="text-sm text-blue-600">Reminder: ${reminderDate}</p>` : ''}
+                        ${tagsHtml}
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="toggleTaskCompletion('${task._id}')" 
+                                class="px-2 py-1 ${task.done ? 'bg-yellow-500' : 'bg-green-500'} text-white rounded text-sm">
+                            ${task.done ? 'Undo' : 'Done'}
+                        </button>
+                    </div>
+                </div>
+            `;
+            return taskDiv;
+        }
+
+        // Function to organize and display tasks
+        function organizeTasks() {
+            const dates = getDates();
+            const todayList = document.getElementById('todayTasksList');
+            const tomorrowList = document.getElementById('tomorrowTasksList');
+            const todoList = document.getElementById('todoTasksList');
+            const remindersList = document.getElementById('remindersList');
+
+            // Clear all lists
+            todayList.innerHTML = '';
+            tomorrowList.innerHTML = '';
+            todoList.innerHTML = '';
+            remindersList.innerHTML = '';
+
+            // Get current time for reminder comparison
+            const now = new Date();
+
+            tasks.forEach(task => {
+                const taskDate = formatDate(task.deadline);
+                const taskElement = createTaskElement(task);
+
+                // Check if task has a reminder and it's in the future
+                if (task.reminder) {
+                    const reminderTime = new Date(task.reminder);
+                    if (reminderTime > now) {
+                        remindersList.appendChild(taskElement.cloneNode(true));
+                    }
+                }
+
+                // Also add the task to the appropriate deadline-based list
+                if (taskDate === dates.today) {
+                    todayList.appendChild(taskElement);
+                } else if (taskDate === dates.tomorrow) {
+                    tomorrowList.appendChild(taskElement);
+                } else {
+                    todoList.appendChild(taskElement);
+                }
+            });
+
+            // Add a message if no reminders
+            if (remindersList.children.length === 0) {
+                remindersList.innerHTML = '<p class="text-gray-500 text-center p-4">No active reminders</p>';
+            }
+        }
+
+        // Function to toggle task completion
+        async function toggleTaskCompletion(taskId) {
+            try {
+                const task = tasks.find(t => t._id === taskId);
+                if (!task) return;
+
+                const response = await fetch(`${API_URL}/api/tasks/${taskId}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ ...task, done: !task.done })
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    const index = tasks.findIndex(t => t._id === taskId);
+                    if (index !== -1) {
+                        tasks[index] = data.task;
+                        localStorage.setItem('userTasks', JSON.stringify(tasks));
+                        organizeTasks();
+                    }
+                }
+            } catch (error) {
+                console.error('Error updating task:', error);
+                alert('Error updating task status');
+            }
+        }
+
+        // Date button click handler
+        document.getElementById('dateButton').addEventListener('click', function() {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            const formattedDate = now.toLocaleDateString(undefined, options);
+            document.getElementById('dateButton').textContent = formattedDate;
+        });
+
+        // Initialize page
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get user email from URL parameters
+            const urlParams = new URLSearchParams(window.location.search);
+            const userEmail = urlParams.get('usernameOrEmail');
+
+            // If we have a user email, fetch the user data
+            if (userEmail) {
+                fetch(`${API_URL}/api/user/${userEmail}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            currentUser = data.user;
+                            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                            displayUserProfile();
+                            
+                            // After getting user data, fetch their tasks
+                            return fetch(`${API_URL}/api/tasks/${currentUser._id}`);
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            tasks = data.tasks;
+                            localStorage.setItem('userTasks', JSON.stringify(tasks));
+                            organizeTasks();
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            } else {
+                // If no email in URL, try to use data from localStorage
+                displayUserProfile();
+                organizeTasks();
+            }
+
+            // Initialize date button with current date
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            document.getElementById('dateButton').textContent = now.toLocaleDateString(undefined, options);
+        });
+    </script>
+</body>
+</html>

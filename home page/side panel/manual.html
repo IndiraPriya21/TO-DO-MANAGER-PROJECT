@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do Manager Manual</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f0f4f8; /* Light blue-gray background */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .manual-container {
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            animation: fadeIn 1s ease-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        h1 {
+            color: #2c3e50; /* Dark blue heading */
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+        }
+        h2 {
+            color: #34495e; /* Medium blue heading */
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #e0e7eb;
+            padding-bottom: 10px;
+        }
+        p {
+            color: #555;
+            font-size: 1.1rem;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+        ul li {
+            background-color: #ecf0f1; /* Light gray for list items */
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: left;
+            border-left: 5px solid #3498db; /* Blue accent */
+            transition: transform 0.2s ease, background-color 0.2s ease;
+        }
+        ul li:hover {
+            transform: translateY(-3px);
+            background-color: #e0e7eb;
+        }
+        .highlight {
+            color: #e67e22; /* Orange highlight */
+            font-weight: 600;
+        }
+        .back-button {
+            display: inline-block;
+            background-color: #3498db; /* Blue button */
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            margin-top: 30px;
+            border: none;
+            cursor: pointer;
+        }
+        .back-button:hover {
+            background-color: #2980b9; /* Darker blue on hover */
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class="manual-container">
+        <a href="../home.html" class="back-button">Back to Home</a>
+        <h1><i class="fas fa-book-open"></i> Welcome to the To-Do Manager Manual!</h1>
+        <p>This manual provides a comprehensive guide to using your <span class="highlight">To-Do Manager</span> application. Organize your tasks, set deadlines, and manage your productivity with ease.</p>
+
+        <h2><i class="fas fa-info-circle"></i> Key Features:</h2>
+        <ul>
+            <li><i class="fas fa-plus-circle"></i> <strong>Task Creation:</strong> Easily add new tasks with descriptions, priorities (Top, Medium, Low), and deadlines.</li>
+            <li><i class="fas fa-bell"></i> <strong>Deadline Management:</strong> Keep track of upcoming deadlines with a dedicated notification system that alerts you to tasks due within 2 days.</li>
+            <li><i class="fas fa-filter"></i> <strong>Priority Filtering:</strong> Filter your tasks by priority to focus on what's most important.</li>
+            <li><i class="fas fa-check-circle"></i> <strong>Task Status:</strong> Mark tasks as done or pending to keep your list organized and track your progress.</li>
+            <li><i class="fas fa-user-circle"></i> <strong>User Profile Management:</strong> Update your personal information directly within the application.</li>
+            <li><i class="fas fa-laptop-code"></i> <strong>Intuitive Interface:</strong> A clean and user-friendly interface designed for optimal productivity.</li>
+        </ul>
+
+        <h2><i class="fas fa-question-circle"></i> How to Use:</h2>
+        <ul>
+            <li><i class="fas fa-plus"></i> <strong>Adding a Task:</strong> Click the "Add New Task" button, fill in the details in the side panel, and click "Add Task".</li>
+            <li><i class="fas fa-edit"></i> <strong>Editing a Task:</strong> Click the "Edit" button next to any task, modify the details in the side panel, and click "Update Task".</li>
+            <li><i class="fas fa-trash-alt"></i> <strong>Deleting a Task:</strong> Click the "Delete" button next to any task and confirm the deletion.</li>
+            <li><i class="fas fa-sort"></i> <strong>Filtering Tasks:</strong> Use the "Priority" and "Pending" buttons to filter your task list. Click "Show All" to reset filters.</li>
+            <li><i class="fas fa-bell"></i> <strong>Notifications:</strong> The bell icon will show a badge with the number of upcoming deadlines. Click it to view the full list in a pop-up panel.</li>
+            <li><i class="fas fa-user-edit"></i> <strong>Managing Profile:</strong> Click on your profile icon to open your profile details. Use "Edit" to modify, "Save" to confirm, or "Cancel" to revert changes.</li>
+        </ul>
+
+        <p>We hope this To-Do Manager helps you stay organized and achieve your goals!</p>
+    </div>
+</body>
+</html> 

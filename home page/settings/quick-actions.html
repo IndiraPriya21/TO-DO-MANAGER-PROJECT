@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quick Actions Settings - Task Manager</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        .back-button {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            z-index: 2;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateX(-5px);
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .settings-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .settings-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+            border-color: #4facfe;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #2d3748;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-title i {
+            color: #4facfe;
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: #4a5568;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #4facfe;
+            background: white;
+            box-shadow: 0 0 0 3px rgba(79, 172, 254, 0.1);
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: #4facfe;
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .toggle-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .toggle-text {
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .toggle-description {
+            font-size: 0.9rem;
+            color: #718096;
+            margin-top: 5px;
+        }
+
+        .save-btn {
+            background: linear-gradient(135deg, #48bb78, #38a169);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(72, 187, 120, 0.3);
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .save-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(72, 187, 120, 0.4);
+        }
+
+        .shortcut-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .shortcut-item:hover {
+            background: #e2e8f0;
+            transform: translateX(5px);
+        }
+
+        .shortcut-info {
+            flex: 1;
+        }
+
+        .shortcut-name {
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .shortcut-description {
+            font-size: 0.9rem;
+            color: #718096;
+            margin-top: 2px;
+        }
+
+        .shortcut-keys {
+            background: #2d3748;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+
+        .template-card {
+            background: linear-gradient(135deg, #f8fafc, #e2e8f0);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .template-card:hover {
+            transform: translateY(-3px);
+            border-color: #4facfe;
+            box-shadow: 0 10px 25px rgba(79, 172, 254, 0.2);
+        }
+
+        .template-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .template-name {
+            font-weight: 600;
+            color: #4a5568;
+        }
+
+        .template-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .template-btn {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+
+        .edit-btn {
+            background: #4facfe;
+            color: white;
+        }
+
+        .delete-btn {
+            background: #e53e3e;
+            color: white;
+        }
+
+        .template-btn:hover {
+            transform: scale(1.05);
+        }
+
+        .add-template-btn {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 15px;
+        }
+
+        .add-template-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <button class="back-button" onclick="goBack()">
+                <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <h1><i class="fas fa-bolt"></i> Quick Actions Settings</h1>
+            <p>Configure keyboard shortcuts and task templates</p>
+        </div>
+
+        <div class="content">
+            <!-- Keyboard Shortcuts -->
+            <div class="settings-section">
+                <h2 class="section-title">
+                    <i class="fas fa-keyboard"></i>
+                    Keyboard Shortcuts
+                </h2>
+                <div class="toggle-label">
+                    <div>
+                        <div class="toggle-text">Enable Keyboard Shortcuts</div>
+                        <div class="toggle-description">Use keyboard shortcuts for faster navigation</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                
+                <div class="shortcut-item">
+                    <div class="shortcut-info">
+                        <div class="shortcut-name">Add New Task</div>
+                        <div class="shortcut-description">Quickly create a new task</div>
+                    </div>
+                    <div class="shortcut-keys">Ctrl + N</div>
+                </div>
+                
+                <div class="shortcut-item">
+                    <div class="shortcut-info">
+                        <div class="shortcut-name">Mark Task Complete</div>
+                        <div class="shortcut-description">Mark selected task as done</div>
+                    </div>
+                    <div class="shortcut-keys">Ctrl + Enter</div>
+                </div>
+                
+                <div class="shortcut-item">
+                    <div class="shortcut-info">
+                        <div class="shortcut-name">Delete Task</div>
+                        <div class="shortcut-description">Delete selected task</div>
+                    </div>
+                    <div class="shortcut-keys">Delete</div>
+                </div>
+                
+                <div class="shortcut-item">
+                    <div class="shortcut-info">
+                        <div class="shortcut-name">Edit Task</div>
+                        <div class="shortcut-description">Edit selected task</div>
+                    </div>
+                    <div class="shortcut-keys">Ctrl + E</div>
+                </div>
+                
+                <div class="shortcut-item">
+                    <div class="shortcut-info">
+                        <div class="shortcut-name">Toggle Side Panel</div>
+                        <div class="shortcut-description">Show/hide the side panel</div>
+                    </div>
+                    <div class="shortcut-keys">Ctrl + S</div>
+                </div>
+                
+                <div class="shortcut-item">
+                    <div class="shortcut-info">
+                        <div class="shortcut-name">Search Tasks</div>
+                        <div class="shortcut-description">Open search functionality</div>
+                    </div>
+                    <div class="shortcut-keys">Ctrl + F</div>
+                </div>
+                
+                <div class="shortcut-item">
+                    <div class="shortcut-info">
+                        <div class="shortcut-name">Filter by Priority</div>
+                        <div class="shortcut-description">Filter tasks by priority</div>
+                    </div>
+                    <div class="shortcut-keys">Ctrl + P</div>
+                </div>
+                
+                <div class="shortcut-item">
+                    <div class="shortcut-info">
+                        <div class="shortcut-name">Filter by Category</div>
+                        <div class="shortcut-description">Filter tasks by category</div>
+                    </div>
+                    <div class="shortcut-keys">Ctrl + C</div>
+                </div>
+            </div>
+
+            <!-- Task Templates -->
+            <div class="settings-section">
+                <h2 class="section-title">
+                    <i class="fas fa-copy"></i>
+                    Task Templates
+                </h2>
+                <div class="toggle-label">
+                    <div>
+                        <div class="toggle-text">Enable Task Templates</div>
+                        <div class="toggle-description">Use predefined task templates</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-header">
+                        <div class="template-name">Daily Standup</div>
+                        <div class="template-actions">
+                            <button class="template-btn edit-btn" onclick="editTemplate(this)">Edit</button>
+                            <button class="template-btn delete-btn" onclick="deleteTemplate(this)">Delete</button>
+                        </div>
+                    </div>
+                    <p style="color: #718096; font-size: 0.9rem;">Prepare for daily team meeting, review yesterday's tasks, plan today's priorities</p>
+                    <small style="color: #a0aec0;">Priority: High | Category: Work</small>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-header">
+                        <div class="template-name">Weekly Review</div>
+                        <div class="template-actions">
+                            <button class="template-btn edit-btn" onclick="editTemplate(this)">Edit</button>
+                            <button class="template-btn delete-btn" onclick="deleteTemplate(this)">Delete</button>
+                        </div>
+                    </div>
+                    <p style="color: #718096; font-size: 0.9rem;">Review weekly progress, plan next week's goals, update project status</p>
+                    <small style="color: #a0aec0;">Priority: Medium | Category: Work</small>
+                </div>
+                
+                <div class="template-card">
+                    <div class="template-header">
+                        <div class="template-name">Grocery Shopping</div>
+                        <div class="template-actions">
+                            <button class="template-btn edit-btn" onclick="editTemplate(this)">Edit</button>
+                            <button class="template-btn delete-btn" onclick="deleteTemplate(this)">Delete</button>
+                        </div>
+                    </div>
+                    <p style="color: #718096; font-size: 0.9rem;">Buy groceries, household items, and weekly essentials</p>
+                    <small style="color: #a0aec0;">Priority: Medium | Category: Shopping</small>
+                </div>
+                
+                <button class="add-template-btn" onclick="addTemplate()">
+                    <i class="fas fa-plus"></i> Add New Template
+                </button>
+            </div>
+
+            <!-- Bulk Operations -->
+            <div class="settings-section">
+                <h2 class="section-title">
+                    <i class="fas fa-layer-group"></i>
+                    Bulk Operations
+                </h2>
+                <div class="toggle-label">
+                    <div>
+                        <div class="toggle-text">Enable Bulk Selection</div>
+                        <div class="toggle-description">Select multiple tasks for bulk operations</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="toggle-label">
+                    <div>
+                        <div class="toggle-text">Bulk Delete Confirmation</div>
+                        <div class="toggle-description">Ask for confirmation before bulk deletion</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <div class="toggle-label">
+                    <div>
+                        <div class="toggle-text">Bulk Category Change</div>
+                        <div class="toggle-description">Change category for multiple tasks</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Quick Access -->
+            <div class="settings-section">
+                <h2 class="section-title">
+                    <i class="fas fa-rocket"></i>
+                    Quick Access
+                </h2>
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label for="quickAddText">Quick Add Text</label>
+                        <input type="text" id="quickAddText" class="form-control" placeholder="Enter default text for quick add">
+                    </div>
+                    <div class="form-group">
+                        <label for="quickAddPriority">Quick Add Priority</label>
+                        <select id="quickAddPriority" class="form-control">
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                            <option value="Low">Low</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="toggle-label">
+                    <div>
+                        <div class="toggle-text">One-Click Task Creation</div>
+                        <div class="toggle-description">Create tasks with minimal input</div>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- Save Button -->
+            <button class="save-btn" onclick="saveSettings()">
+                <i class="fas fa-save"></i> Save All Changes
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+
+        function editTemplate(btn) {
+            const card = btn.closest('.template-card');
+            const name = card.querySelector('.template-name').textContent;
+            alert(`Editing template: ${name}\n\nThis would open a template editor with the current settings.`);
+        }
+
+        function deleteTemplate(btn) {
+            const card = btn.closest('.template-card');
+            const name = card.querySelector('.template-name').textContent;
+            
+            if (confirm(`Are you sure you want to delete the template "${name}"?`)) {
+                card.style.animation = 'slideOut 0.3s ease forwards';
+                setTimeout(() => {
+                    card.remove();
+                }, 300);
+            }
+        }
+
+        function addTemplate() {
+            const name = prompt('Enter template name:');
+            if (name) {
+                const description = prompt('Enter template description:');
+                const priority = prompt('Enter priority (High/Medium/Low):', 'Medium');
+                const category = prompt('Enter category:', 'General');
+                
+                // Create new template card
+                const newCard = document.createElement('div');
+                newCard.className = 'template-card';
+                newCard.innerHTML = `
+                    <div class="template-header">
+                        <div class="template-name">${name}</div>
+                        <div class="template-actions">
+                            <button class="template-btn edit-btn" onclick="editTemplate(this)">Edit</button>
+                            <button class="template-btn delete-btn" onclick="deleteTemplate(this)">Delete</button>
+                        </div>
+                    </div>
+                    <p style="color: #718096; font-size: 0.9rem;">${description}</p>
+                    <small style="color: #a0aec0;">Priority: ${priority} | Category: ${category}</small>
+                `;
+                
+                const addBtn = document.querySelector('.add-template-btn');
+                addBtn.parentNode.insertBefore(newCard, addBtn);
+            }
+        }
+
+        function saveSettings() {
+            const btn = event.target;
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                btn.innerHTML = '<i class="fas fa-check"></i> Saved Successfully!';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                    btn.disabled = false;
+                }, 2000);
+            }, 1500);
+        }
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                goBack();
+            }
+        });
+
+        // Add CSS animation for slide out
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes slideOut {
+                to {
+                    opacity: 0;
+                    transform: translateX(-100%);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html> 
