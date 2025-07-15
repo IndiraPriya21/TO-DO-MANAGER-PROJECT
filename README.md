@@ -1,3 +1,4 @@
+ HEAD
 # To-Do Manager - Enhanced Features
 
 ## New Features Implemented
@@ -92,3 +93,6 @@
 - Bulk category/tag editing
 - Drag and drop between different views
 - Keyboard shortcuts for theme toggle 
+
+# TO-DO-MANAGER-PROJECT
+ 42c45313af0b209d1ee361a73dc28ac2d37a1ee5
